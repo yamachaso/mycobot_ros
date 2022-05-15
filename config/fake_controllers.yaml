@@ -1,5 +1,6 @@
 controller_list:
   - name: fake_mycobot_arm_controller
+    type: interpolate
     joints:
       - arm1_joint
       - arm2_joint
