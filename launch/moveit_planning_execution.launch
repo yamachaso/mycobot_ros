@@ -27,7 +27,7 @@
   <!-- <arg name="load_gripper" default="true" /> -->
 
   <!-- urdf_path  -->
-  <arg name="urdf_path" default="$(find mycobot_moveit)/urdf/mycobot_urdf_gazebo.urdf"/>
+  <arg name="model" default="$(find mycobot_description)/urdf/mycobot.urdf.xacro"/>
 
   <!-- Gazebo specific options -->
   <arg name="paused" default="false"/>
@@ -83,7 +83,7 @@
       <include file="$(find mycobot_moveit)/launch/gazebo.launch" >
         <arg name="paused" value="$(arg paused)"/>
         <arg name="gazebo_gui" value="$(arg gazebo_gui)"/>
-        <arg name="urdf_path" value="$(arg urdf_path)"/>
+        <arg name="model" value="$(arg model)"/>
       </include>
     </group>
   </group>
@@ -93,7 +93,7 @@
   <group unless="$(arg sim)">
     <include file="$(find mycobot_moveit)/launch/real_robot.launch" >
       <arg name="mycobot_port" value="$(arg mycobot_port)"/>
-      <arg name="urdf_path" value="$(arg urdf_path)"/>
+      <arg name="model" value="$(arg model)"/>
     </include>
   </group>
 

@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="mycobot_port" default="/dev/ttyUSB0"/>
-  <arg name="urdf_path" default="$(find mycobot_moveit)/urdf/mycobot_urdf_gazebo.urdf"/>
+  <arg name="model" default="$(find mycobot_description)/urdf/mycobot.urdf.xacro"/>
 
   <!-- send robot urdf to param server -->
-  <param name="robot_description" textfile="$(arg urdf_path)" />
+  <!-- <param name="robot_description" textfile="$(arg urdf_path)" /> -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(arg model)' gazebo_plugin:=true" />
 
 
   <!-- myCobot -->
