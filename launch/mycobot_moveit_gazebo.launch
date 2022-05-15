@@ -1,55 +1,65 @@
 <?xml version="1.0" ?>
 <launch>
-  <arg name="model" default="$(find mycobot_moveit)/urdf/mycobot_urdf_gazebo.urdf" />
-  <param name="robot_description" textfile="$(arg model)" />
+  <!-- By default, we are not in debug mode -->
+  <arg name="debug" default="false" />
+  <!-- By default, we will load or override the robot_description -->
+  <arg name="load_robot_description" default="false"/>
+  <!-- specify the planning pipeline -->
+  <arg name="pipeline" default="ompl" />
+  <!-- By default we will load the gripper -->
+  <!-- <arg name="load_gripper" default="true" /> -->
+  <!-- Choose controller manager: fake or simple -->
+  <!-- <arg name="moveit_controller_manager" default="fake" /> -->
+  <!-- Set execution mode for fake execution controllers -->
+  <!-- <arg name="fake_execution_type" default="interpolate" /> -->
+  <!-- <arg name="fake_execution_type" default="last point" /> -->
 
-  <!-- gazebo world -->
-  <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+  <!-- By default, hide joint_state_publisher's GUI in 'fake' controller_manager mode -->
+  <arg name="use_gui" default="false" />
 
-  <!-- gazebo model -->
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model arm_robot" />
-  <rosparam file="$(find mycobot_moveit)/config/trajectory_controller.yaml" command="load"/>
-  <node name="mycobot_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="mycobot_trajectory_controller joint_state_controller"/>
+  <!-- Gazebo specific options -->
+  <arg name="paused" default="false"/>
+  <arg name="gazebo_gui" default="true"/>
+  <arg name="urdf_path" default="$(find mycobot_moveit)/urdf/mycobot_urdf_gazebo.urdf"/>
 
-  <!-- common -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  <!-- database -->
+  <arg name="db" default="false" />
+  <arg name="db_path" default="$(find panda_moveit_config)/default_warehouse_mongo_db" />
 
-  <!-- moveit setting -->
-  <param name="robot_description_semantic" textfile="$(find mycobot_moveit)/config/firefighter.srdf" />
-  <group ns="robot_description_planning">
-    <rosparam command="load" file="$(find mycobot_moveit)/config/joint_limits.yaml"/>
-  </group>
-  <group ns="robot_description_kinematics">
-    <rosparam command="load" file="$(find mycobot_moveit)/config/kinematics.yaml"/>
-  </group>
 
-  <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
-      default_planner_request_adapters/FixWorkspaceBounds
-      default_planner_request_adapters/FixStartStateBounds
-      default_planner_request_adapters/FixStartStateCollision
-      default_planner_request_adapters/FixStartStatePathConstraints" />
+  <!-- Given the published joint states, publish tf for the robot links -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
 
-  <node name="move_group"  pkg="moveit_ros_move_group" type="move_group" respawn="false" output="screen" args="">
-    <!-- Set the display variable, in case OpenGL code is used internally -->
-    <env name="DISPLAY" value="$(optenv DISPLAY :0)" />
 
-    <!-- Publish the planning scene of the physical robot so that rviz plugin can know actual robot -->
-    <param name="planning_scene_monitor/publish_planning_scene" value="true" />
-    <param name="planning_scene_monitor/publish_geometry_updates" value="true" />
-    <param name="planning_scene_monitor/publish_state_updates" value="true" />
-    <param name="planning_scene_monitor/publish_transforms_updates" value="true" />
+  <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
+  <include file="$(dirname)/move_group.launch">
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="info" value="true"/>
+    <arg name="load_robot_description" value="$(arg load_robot_description)"/>
+    <arg name="pipeline" value="$(arg pipeline)" />
+    <arg name="allow_trajectory_execution" value="true"/>
+    <arg name="fake_execution" value="false"/>
+  </include>
 
-    <!-- controller config -->
-    <param name="moveit_controller_manager" value="moveit_simple_controller_manager/MoveItSimpleControllerManager"/>
-    <rosparam file="$(find mycobot_moveit)/config/controllers.yaml"/>
-
-    <!-- planning config -->
-    <param name="planning_plugin" value="ompl_interface/OMPLPlanner" />
-    <param name="request_adapters" value="$(arg planning_adapters)" />
-    <param name="start_state_max_bounds_error" value="0.1" />
-    <rosparam command="load" file="$(find mycobot_moveit)/config/ompl_planning.yaml"/>
-  </node>
 
   <!-- Rviz -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mycobot_moveit)/rviz/moveit.rviz"/>
+  <include file="$(dirname)/moveit_rviz.launch">
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="rviz_config" value="$(find mycobot_moveit)/rviz/moveit.rviz"/>
+  </include>
+
+
+  <!-- gazebo -->
+  <include file="$(find mycobot_moveit)/launch/gazebo.launch" >
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="gazebo_gui" value="$(arg gazebo_gui)"/>
+    <arg name="urdf_path" value="$(arg urdf_path)"/>
+  </include>
+  
+
+  <!-- If database loading was enabled, start mongodb as well -->
+  <include file="$(dirname)/default_warehouse_db.launch" if="$(arg db)">
+    <arg name="moveit_warehouse_database_path" value="$(arg db_path)"/>
+  </include>
+
 </launch>
