@@ -1,65 +1,107 @@
 <?xml version="1.0" ?>
 <launch>
-  <arg name="model" default="$(find mycobot_moveit)/urdf/mycobot_urdf_gazebo.urdf" />
-  <param name="robot_description" textfile="$(arg model)" />
+  <!-- By default, we are not in debug mode -->
+  <arg name="debug" default="false" />
 
-  <!-- common -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  <!-- Choose mode: Simulation or Real Robot -->
+  <arg name="sim" default="false" />
 
-  <!-- moveit setting -->
-  <param name="robot_description_semantic" textfile="$(find mycobot_moveit)/config/firefighter.srdf" />
-  <group ns="robot_description_planning">
-    <rosparam command="load" file="$(find mycobot_moveit)/config/joint_limits.yaml"/>
-  </group>
-  <group ns="robot_description_kinematics">
-    <rosparam command="load" file="$(find mycobot_moveit)/config/kinematics.yaml"/>
-  </group>
+  <!-- Choose moveit controller manager: fake or simple -->
+  <!-- fake : true, simple : false -->
+  <arg name="is_fake" default="false" />
 
-  <arg name="planning_adapters" value="default_planner_request_adapters/AddTimeParameterization
-      default_planner_request_adapters/FixWorkspaceBounds
-      default_planner_request_adapters/FixStartStateBounds
-      default_planner_request_adapters/FixStartStateCollision
-      default_planner_request_adapters/FixStartStatePathConstraints" />
+  <!-- When sim is false, force fake_execution to be false -->
+  <arg     if="$(eval sim and is_fake)" name="fake_execution" value="true" />
+  <arg unless="$(eval sim and is_fake)" name="fake_execution" value="false" />
 
-  <node name="move_group"  pkg="moveit_ros_move_group" type="move_group" respawn="false" output="screen" args="">
-    <!-- Set the display variable, in case OpenGL code is used internally -->
-    <env name="DISPLAY" value="$(optenv DISPLAY :0)" />
+  <!-- If not 'fake', we will not load the robot_description in planning_context.launch -->
+  <arg     if="$(arg fake_execution)" name="load_robot_description" value="true" />
+  <arg unless="$(arg fake_execution)" name="load_robot_description" value="false" />
 
-    <!-- Publish the planning scene of the physical robot so that rviz plugin can know actual robot -->
-    <param name="planning_scene_monitor/publish_planning_scene" value="true" />
-    <param name="planning_scene_monitor/publish_geometry_updates" value="true" />
-    <param name="planning_scene_monitor/publish_state_updates" value="true" />
-    <param name="planning_scene_monitor/publish_transforms_updates" value="true" />
+  <!-- This is for 'fake'. By default, hide joint_state_publisher's GUI. -->
+  <arg name="use_gui" default="false" />
 
-    <!-- controller config -->
-    <param name="moveit_controller_manager" value="moveit_simple_controller_manager/MoveItSimpleControllerManager"/>
-    <rosparam file="$(find mycobot_moveit)/config/controllers.yaml"/>
+  <!-- specify the planning pipeline -->
+  <arg name="pipeline" default="ompl" />
+  <!-- By default we will load the gripper -->
+  <!-- <arg name="load_gripper" default="true" /> -->
 
-    <!-- planning config -->
-    <param name="planning_plugin" value="ompl_interface/OMPLPlanner" />
-    <param name="request_adapters" value="$(arg planning_adapters)" />
-    <param name="start_state_max_bounds_error" value="0.1" />
-    <rosparam command="load" file="$(find mycobot_moveit)/config/ompl_planning.yaml"/>
-  </node>
+  <!-- urdf_path  -->
+  <arg name="urdf_path" default="$(find mycobot_moveit)/urdf/mycobot_urdf_gazebo.urdf"/>
+
+  <!-- Gazebo specific options -->
+  <arg name="paused" default="false"/>
+  <arg name="gazebo_gui" default="true"/>
+
+  <!-- Real robot specific options -->
+  <arg name="mycobot_port" default="/dev/ttyUSB0"/>
+
+  <!-- database options -->
+  <arg name="db" default="false" />
+  <arg name="db_path" default="$(find panda_moveit_config)/default_warehouse_mongo_db" />
+
+
+
+
+  <!-- joint states -> tf -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+
+
+  <!-- MoveIt -->
+  <include file="$(dirname)/move_group.launch">
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="info" value="true"/>
+    <arg name="load_robot_description" value="$(arg load_robot_description)"/>
+    <arg name="pipeline" value="$(arg pipeline)" />
+    <arg name="allow_trajectory_execution" value="true"/>
+    <arg name="fake_execution" value="$(arg fake_execution)"/>
+  </include>
+
 
   <!-- Rviz -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mycobot_moveit)/rviz/moveit.rviz"/>
+  <include file="$(dirname)/moveit_rviz.launch">
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="rviz_config" value="$(find mycobot_moveit)/rviz/moveit.rviz"/>
+  </include>
 
-  <!-- myCobot -->
-  <rosparam file="$(find mycobot_moveit)/config/mycobot_control.yaml" command="load"/>
-  <!-- <rosparam file="$(find mycobot_moveit)/config/mycobot_control.yaml" command="load"/> -->
 
-  <node name="controller_manager"
-      pkg="controller_manager"
-      type="spawner" respawn="false"
-      output="screen"
-      args="joint_state_controller mycobot_trajectory_controller"/>
+  <!-- Simlation -->
+  <group if="$(arg sim)">
+    <!-- fake controller manager setting -->
+    <group if="$(arg fake_execution)">
+      <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" unless="$(arg use_gui)">
+        <rosparam param="source_list">[move_group/fake_controller_joint_states]</rosparam>
+      </node>
+      <node name="joint_state_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" if="$(arg use_gui)">
+        <rosparam param="source_list">[move_group/fake_controller_joint_states]</rosparam>
+      </node>
+    </group>
 
-  <node name="mycobot_control" pkg="mycobot_moveit" type="mycobot_control" output="screen" respawn="false" />
+    <!-- simple controller manager setting -->
+    <group unless="$(arg fake_execution)">
+      <!-- Gazebo -->
+      <include file="$(find mycobot_moveit)/launch/gazebo.launch" >
+        <arg name="paused" value="$(arg paused)"/>
+        <arg name="gazebo_gui" value="$(arg gazebo_gui)"/>
+        <arg name="urdf_path" value="$(arg urdf_path)"/>
+      </include>
+    </group>
+  </group>
 
-  <!-- HW Interface -->
-  <node name="hardware_interface" pkg="mycobot_moveit" type="mycobot_hw_interface.py" output="screen">
-    <param name="mycobot_port" value="/dev/ttyUSB0"/>
-  </node>
+
+  <!-- Real Robot  -->
+  <group unless="$(arg sim)">
+    <include file="$(find mycobot_moveit)/launch/real_robot.launch" >
+      <arg name="mycobot_port" value="$(arg mycobot_port)"/>
+      <arg name="urdf_path" value="$(arg urdf_path)"/>
+    </include>
+  </group>
+
+
+  <!-- If database loading was enabled, start mongodb as well -->
+  <include file="$(dirname)/default_warehouse_db.launch" if="$(arg db)">
+    <arg name="moveit_warehouse_database_path" value="$(arg db_path)"/>
+  </include>
+
 
 </launch>
