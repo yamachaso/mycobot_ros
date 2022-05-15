@@ -4,9 +4,8 @@ Unofficial myCobot moveit repositiry
 # Environment
 | item |  |
 |---|---|
-| OS | Ubuntu 18.04 |
-| ROS | melodic |
-| Arm Robot | myCobot |
+| OS | Ubuntu 20.04 |
+| ROS | noetic |
 
 # Preparation
 1. Install pymycobot. See how to install it. https://github.com/elephantrobotics/pymycobot (AtomMain2.5 + pymycobot v2.2.0, or AtomMain2.4 + pymycobot v2.1.2)
