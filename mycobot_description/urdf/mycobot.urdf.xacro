@@ -26,7 +26,6 @@
         <mesh filename="package://mycobot_description/meshes/visual/base_link.dae" />
       </geometry>
       <origin xyz="0 0 0" rpy="0 0 0" />
-      <material name="white" />
     </visual>
     <collision>
       <geometry>

@@ -2,7 +2,6 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:include filename="$(find mycobot_description)/urdf/common.xacro" />
-  <xacro:include filename="$(find mycobot_description)/urdf/color.xacro" />
 
   <xacro:macro name="mycobot_robot" params="prefix parent *joint_origin">
 
@@ -35,7 +34,6 @@
           <mesh filename="package://mycobot_description/meshes/visual/link1.dae" />
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <material name="white" />
       </visual>
       <collision>
         <geometry>
@@ -56,7 +54,6 @@
           <mesh filename="package://mycobot_description/meshes/visual/link2.dae" />
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <material name="white" />
       </visual>
       <collision>
         <geometry>
@@ -77,7 +74,6 @@
           <mesh filename="package://mycobot_description/meshes/visual/link3.dae" />
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <material name="white" />
       </visual>
       <collision>
         <geometry>
@@ -98,7 +94,6 @@
           <mesh filename="package://mycobot_description/meshes/visual/link4.dae" />
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <material name="white" />
       </visual>
       <collision>
         <geometry>
@@ -119,7 +114,6 @@
           <mesh filename="package://mycobot_description/meshes/visual/link5.dae" />
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <material name="white" />
       </visual>
       <collision>
         <geometry>
@@ -140,7 +134,6 @@
           <mesh filename="package://mycobot_description/meshes/visual/link6.dae" />
         </geometry>
         <origin xyz="0 0 0 " rpy="0 0 0" />
-        <material name="white" />
       </visual>
       <collision>
         <geometry>
@@ -161,7 +154,6 @@
           <mesh filename="package://mycobot_description/meshes/visual/link7.dae" />
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <material name="white" />
       </visual>
       <collision>
         <geometry>
@@ -311,30 +303,6 @@
           <mechanicalReduction>1</mechanicalReduction>
         </actuator>
       </transmission>
-
-      <!-- <gazebo reference="${mycobot_link_1}">
-        <material>Gazebo/White</material>
-      </gazebo>
-
-      <gazebo reference="${mycobot_link_2}">
-        <material>Gazebo/White</material>
-      </gazebo>
-
-      <gazebo reference="${mycobot_link_3}">
-        <material>Gazebo/White</material>
-      </gazebo>
-
-      <gazebo reference="${mycobot_link_4}">
-        <material>Gazebo/White</material>
-      </gazebo>
-
-      <gazebo reference="${mycobot_link_5}">
-        <material>Gazebo/White</material>
-      </gazebo>
-
-      <gazebo reference="${mycobot_link_6}">
-        <material>Gazebo/White</material>
-      </gazebo> -->
     </xacro:if>
 
   </xacro:macro>

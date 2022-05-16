@@ -11,18 +11,3 @@ controller_list:
 initial:  # Define initial robot poses per group
   - group: arm
     pose: Straight
-
-
-# controller_list:
-#   - name: fake_mycobot_arm_controller
-#     type: interpolate
-#     joints:
-#       - arm1_joint
-#       - arm2_joint
-#       - arm3_joint
-#       - arm4_joint
-#       - arm5_joint
-#       - arm6_joint
-# initial:  # Define initial robot poses.
-#   - group: mycobot_arm
-#     pose: init

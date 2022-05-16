@@ -6,7 +6,7 @@
   <arg name="state_rate" default="10" />
   <arg name="xacro_option" default="" />
   <arg name="robot_namespace" default="" />
-  <arg name="rvizconfig" default="$(find mycobot_description)/launch/config/urdf.rviz" />
+  <arg name="rvizconfig" default="$(find mycobot_description)/rviz/urdf.rviz" />
   <!-- prameters -->
   <param name="rate" value="$(arg state_rate)" />
   <!-- Load the URDF into the ROS Parameter Server -->

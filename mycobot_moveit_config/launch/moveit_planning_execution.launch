@@ -45,7 +45,8 @@
 
   <!-- joint states -> tf -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
-
+  <!-- static tf  -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint_broadcaster_0" args="0 0 0 0 0 0 world0 world" />
 
   <!-- MoveIt -->
   <include file="$(dirname)/move_group.launch">

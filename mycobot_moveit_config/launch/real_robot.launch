@@ -5,7 +5,7 @@
 
   <!-- send robot urdf to param server -->
   <!-- <param name="robot_description" textfile="$(arg urdf_path)" /> -->
-  <param name="robot_description" command="$(find xacro)/xacro '$(arg model)' gazebo_plugin:=true" />
+  <param name="robot_description" command="$(find xacro)/xacro '$(arg model)'" />
 
 
   <!-- myCobot -->

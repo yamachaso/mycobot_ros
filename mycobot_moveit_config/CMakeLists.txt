@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(mycobot_moveit_config)
 
 add_compile_options(-std=c++11)
