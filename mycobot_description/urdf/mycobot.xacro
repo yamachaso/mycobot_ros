@@ -37,10 +37,10 @@
         <origin xyz="0 0 0" rpy="0 0 0" />
         <material name="white" />
       </visual>
-      <!-- <collision>
+      <collision>
         <geometry>
           <mesh filename="package://mycobot_description/meshes/visual/joint1.dae" />
-          <mesh filename="package://mycobot_description/meshes/collision/link1.stl" />
+          <!-- <mesh filename="package://mycobot_description/meshes/collision/link1.stl" /> -->
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0" />
       </collision>
@@ -48,7 +48,7 @@
         <origin xyz="0 0 0.035" rpy="0 0 0" />
         <mass value="1.0" />
         <xacro:cylinder_inertia m="1.0" r="0.05" h="0.07" />
-      </inertial> -->
+      </inertial>
     </link>
 
     <link name="${mycobot_link_2}">
@@ -59,18 +59,18 @@
         <origin xyz="0 0 0" rpy="0 0 0" />
         <material name="white" />
       </visual>
-      <!-- <collision>
+      <collision>
         <geometry>
           <mesh filename="package://mycobot_description/meshes/visual/joint2.dae" />
-          <mesh filename="package://mycobot_description/meshes/collision/link2.stl" />
+          <!-- <mesh filename="package://mycobot_description/meshes/collision/link2.stl" /> -->
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0" />
       </collision>
       <inertial>
-        <origin xyz="0 0 0.060" rpy="0 0 0" />
+        <origin xyz="0 0 0.04" rpy="0 0 0" />
         <mass value="0.2" />
-        <xacro:cylinder_inertia m="0.2" r="0.05" h="0.08" />
-      </inertial> -->
+        <xacro:cylinder_inertia m="0.2" r="0.025" h="0.08" />
+      </inertial>
     </link>
 
     <link name="${mycobot_link_3}">
@@ -81,18 +81,18 @@
         <origin xyz="0 0 0" rpy="0 0 0" />
         <material name="white" />
       </visual>
-      <!-- <collision>
+      <collision>
         <geometry>
           <mesh filename="package://mycobot_description/meshes/visual/joint3.dae" />
-          <mesh filename="package://mycobot_description/meshes/collision/link3.stl" />
+          <!-- <mesh filename="package://mycobot_description/meshes/collision/link3.stl" /> -->
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0" />
       </collision>
       <inertial>
-        <origin xyz="0.01 0 0.06" rpy="0 0 0" />
+        <origin xyz="0 0.03 0.06" rpy="0 0 0" />
         <mass value="0.4" />
-        <xacro:cylinder_inertia m="0.4" r="0.05" h="0.155" />
-      </inertial> -->
+        <xacro:cylinder_inertia m="0.4" r="0.025" h="0.155" />
+      </inertial>
     </link>
 
     <link name="${mycobot_link_4}">
@@ -103,18 +103,18 @@
         <origin xyz="0 0 0" rpy="0 0 0" />
         <material name="white" />
       </visual>
-      <!-- <collision>
+      <collision>
         <geometry>
           <mesh filename="package://mycobot_description/meshes/visual/joint4.dae" />
-          <mesh filename="package://mycobot_description/meshes/collision/link4.stl" />
+          <!-- <mesh filename="package://mycobot_description/meshes/collision/link4.stl" /> -->
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0" />
       </collision>
       <inertial>
-        <origin xyz="-0.01 0 0.05" rpy="0 0 0" />
-        <mass value="0.4" />
-        <xacro:cylinder_inertia m="0.4" r="0.05" h="0.155" />
-      </inertial> -->
+        <origin xyz="0 0.03 0.05" rpy="0 0 0" />
+        <mass value="0.35" />
+        <xacro:cylinder_inertia m="0.35" r="0.022" h="0.137" />
+      </inertial>
     </link>
 
     <link name="${mycobot_link_5}">
@@ -125,18 +125,18 @@
         <origin xyz="0 0 0" rpy="0 0 0" />
         <material name="white" />
       </visual>
-      <!-- <collision>
+      <collision>
         <geometry>
           <mesh filename="package://mycobot_description/meshes/visual/joint5.dae" />
-          <mesh filename="package://mycobot_description/meshes/collision/link5.stl" />
+          <!-- <mesh filename="package://mycobot_description/meshes/collision/link5.stl" /> -->
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0" />
       </collision>
       <inertial>
-        <origin xyz="0 0 0.05" rpy="0 0 0" />
+        <origin xyz="0 0.03 0.01" rpy="0 0 0" />
         <mass value="0.2" />
-        <xacro:cylinder_inertia m="0.2" r="0.05" h="0.05" />
-      </inertial> -->
+        <xacro:cylinder_inertia m="0.2" r="0.025" h="0.05" />
+      </inertial>
     </link>
 
     <link name="${mycobot_link_6}">
@@ -147,18 +147,18 @@
         <origin xyz="0 0 0 " rpy="0 0 0" />
         <material name="white" />
       </visual>
-      <!-- <collision>
+      <collision>
         <geometry>
           <mesh filename="package://mycobot_description/meshes/visual/joint6.dae" />
-          <mesh filename="package://mycobot_description/meshes/collision/link6.stl" />
+          <!-- <mesh filename="package://mycobot_description/meshes/collision/link6.stl" /> -->
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0" />
       </collision>
       <inertial>
         <origin xyz="0 0 0.037" rpy="0 0 0" />
         <mass value="0.5" />
-        <xacro:cylinder_inertia m="0.5" r="0.05" h="0.06" />
-      </inertial> -->
+        <xacro:cylinder_inertia m="0.5" r="0.025" h="0.06" />
+      </inertial>
     </link>
 
     <link name="${mycobot_link_7}">
@@ -171,18 +171,18 @@
         <!-- <origin xyz="0 0 0" rpy="0 0 0" /> -->
         <material name="white" />
       </visual>
-      <!-- <collision>
+      <collision>
         <geometry>
-          <mesh filename="package://mycobot_description/meshes/visual/joint7.dae" />
-          <cylinder length="0.005" radius="0.02" />
+          <!-- <mesh filename="package://mycobot_description/meshes/collision/link6.stl" /> -->
+          <cylinder length="0.0137" radius="0.0192" />
         </geometry>
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="-0.00685 0 0" rpy="0 -${M_PI/2} 0" />
       </collision>
       <inertial>
-        <origin xyz="0 0.0025 0" rpy="${M_PI/2} 0 0" />
+        <origin xyz="-0.005 0 0" rpy="0 -${M_PI/2} 0" />
         <mass value="0.1" />
-        <xacro:cylinder_inertia m="0.1" r="0.02" h="0.005" />
-      </inertial> -->
+        <xacro:cylinder_inertia m="0.1" r="0.02" h="0.01" />
+      </inertial>
     </link>
 
     <joint name="${mycobot_joint_1}" type="revolute">
@@ -326,7 +326,7 @@
         </actuator>
       </transmission>
 
-      <gazebo reference="${mycobot_link_1}">
+      <!-- <gazebo reference="${mycobot_link_1}">
         <material>Gazebo/White</material>
       </gazebo>
 
@@ -348,7 +348,7 @@
 
       <gazebo reference="${mycobot_link_6}">
         <material>Gazebo/White</material>
-      </gazebo>
+      </gazebo> -->
     </xacro:if>
 
   </xacro:macro>

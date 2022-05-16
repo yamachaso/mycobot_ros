@@ -35,9 +35,9 @@
       <origin xyz="0 0 0" rpy="0 0 0" />
     </collision>
     <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <mass value="1.0" />
-      <xacro:cylinder_inertia m="0.01" r="0.05" h="0.001" />
+      <origin xyz="0 0 0.003" rpy="0 0 0" />
+      <mass value="0.01" />
+      <xacro:cylinder_inertia m="0.01" r="0.05" h="0.006" />
     </inertial>
   </link>
 
