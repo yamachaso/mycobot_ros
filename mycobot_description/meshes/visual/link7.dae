@@ -13,14 +13,14 @@
   <library_effects>
     <effect id="material0_011-effect">
       <profile_COMMON>
-        <newparam sid="joint7_png-surface">
+        <newparam sid="link7_png-surface">
           <surface type="2D">
-            <init_from>joint7_png</init_from>
+            <init_from>link7_png</init_from>
           </surface>
         </newparam>
-        <newparam sid="joint7_png-sampler">
+        <newparam sid="link7_png-sampler">
           <sampler2D>
-            <source>joint7_png-surface</source>
+            <source>link7_png-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="common">
@@ -29,7 +29,7 @@
               <color sid="emission">0 0 0 1</color>
             </emission>
             <diffuse>
-              <texture texture="joint7_png-sampler" texcoord="shape0-lib-map"/>
+              <texture texture="link7_png-sampler" texcoord="shape0-lib-map"/>
             </diffuse>
             <index_of_refraction>
               <float sid="ior">1.45</float>
@@ -40,8 +40,8 @@
     </effect>
   </library_effects>
   <library_images>
-    <image id="joint7_png" name="joint7_png">
-      <init_from>joint7.png</init_from>
+    <image id="link7_png" name="link7_png">
+      <init_from>link7.png</init_from>
     </image>
   </library_images>
   <library_materials>
