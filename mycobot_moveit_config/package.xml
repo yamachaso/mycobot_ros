@@ -1,18 +1,15 @@
-<package>
-
-  <name>mycobot_moveit</name>
+<?xml version="1.0"?>
+<package format="2">
+  <name>mycobot_moveit_config</name>
   <version>0.3.0</version>
   <description>
     An automatically generated package with all the configuration and launch files for using the firefighter with the MoveIt! Motion Planning Framework
   </description>
-  <author email="tissueloose@gmail.com">Hirotaka Yamada</author>
+
   <maintainer email="tissueloose@gmail.com">Hirotaka Yamada</maintainer>
 
-  <license>BSD</license>
+  <license>MIT</license>
 
-  <url type="website">http://moveit.ros.org/</url>
-  <url type="bugtracker">https://github.com/ros-planning/moveit/issues</url>
-  <url type="repository">https://github.com/ros-planning/moveit</url>
 
   <buildtool_depend>catkin</buildtool_depend>
 
@@ -23,28 +20,26 @@
   <build_depend>std_msgs</build_depend>
   <build_depend>transmission_interface</build_depend>
 
-  <run_depend>controller_manager</run_depend>
-  <run_depend>hardware_interface</run_depend>
-  <run_depend>joint_state_controller</run_depend>
-  <run_depend>joint_state_publisher_gui</run_depend>
-  <run_depend>joint_state_publisher</run_depend>
-  <run_depend>jsk_rviz_plugins</run_depend>
-  <run_depend>moveit_fake_controller_manager</run_depend>
-  <run_depend>moveit_kinematics</run_depend>
-  <run_depend>moveit_planners_ompl</run_depend>
-  <run_depend>moveit_ros_move_group</run_depend>
-  <run_depend>moveit_ros_planning_interface</run_depend>
-  <run_depend>moveit_ros_visualization</run_depend>
-  <run_depend>moveit_setup_assistant</run_depend>
-  <run_depend>mycobot_description</run_depend>
-  <!-- <run_depend>myCobotROS</run_depend> -->
-  <run_depend>position_controllers</run_depend>
-  <run_depend>robot_state_publisher</run_depend>
-  <run_depend>roscpp</run_depend>
-  <run_depend>tf2_ros</run_depend>
-  <run_depend>transmission_interface</run_depend>
-  <!-- This package is referenced in the warehouse launch files, but does not build out of the box at the moment. Commented the dependency until this works. -->
-  <!-- <run_depend>warehouse_ros_mongo</run_depend> -->
-  <run_depend>xacro</run_depend>
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>hardware_interface</exec_depend>
+  <exec_depend>joint_state_controller</exec_depend>
+  <exec_depend>joint_state_publisher_gui</exec_depend>
+  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>jsk_rviz_plugins</exec_depend>
+  <exec_depend>moveit_fake_controller_manager</exec_depend>
+  <exec_depend>moveit_kinematics</exec_depend>
+  <exec_depend>moveit_planners_ompl</exec_depend>
+  <exec_depend>moveit_ros_move_group</exec_depend>
+  <exec_depend>moveit_ros_planning_interface</exec_depend>
+  <exec_depend>moveit_ros_visualization</exec_depend>
+  <exec_depend>moveit_setup_assistant</exec_depend>
+  <exec_depend>mycobot_description</exec_depend>
+  <exec_depend>position_controllers</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>transmission_interface</exec_depend>
+
+  <exec_depend>xacro</exec_depend>
 
 </package>
