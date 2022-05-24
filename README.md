@@ -1,8 +1,10 @@
 # 1. Overview
+[![CI](https://github.com/yamachaso/mycobot_ros/actions/workflows/industrial_ci_action.yml/badge.svg)](https://github.com/yamachaso/mycobot_ros/actions/workflows/industrial_ci_action.yml)
+
 Unofficial myCobot moveit repositiry
 
 # 2. Environment
-|  |  |
+| item |  |
 |---|---|
 | OS | Ubuntu 20.04 |
 | ROS | noetic |
