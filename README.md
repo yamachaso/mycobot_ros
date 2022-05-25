@@ -29,9 +29,10 @@ $ catkin build
 $ roslaunch mycobot_bringup bringup.launch sim:=true is_fake:=true
 ```
 * Appearance
+<div align="center"><img src="https://user-images.githubusercontent.com/55785032/170192387-c2dd96f9-5d1a-414b-b135-2445eed6526f.png" width="50%"></div>
 
 * Node Graph
-
+![fake](https://user-images.githubusercontent.com/55785032/170192417-5ee8af34-f426-4c8b-b993-a418c81faed7.png)
 
 ## 4-2. Simple Controller + Gazebo
 
@@ -39,9 +40,10 @@ $ roslaunch mycobot_bringup bringup.launch sim:=true is_fake:=true
 $ roslaunch mycobot_bringup bringup.launch sim:=true
 ```
 * Appearance
+<div align="center"><img src="https://user-images.githubusercontent.com/55785032/170192453-9a6e709b-3f1f-463c-81af-d4a2e084f4cd.png" width="50%"></div>
 
 * Node Graph
-
+![simple_gazebo](https://user-images.githubusercontent.com/55785032/170192467-3233d306-dafb-4502-9199-277d35574963.png)
 
 ## 4-3. Simple Controller + Real Robot
 
@@ -49,7 +51,7 @@ $ roslaunch mycobot_bringup bringup.launch sim:=true
 $ roslaunch mycobot_bringup bringup.launch
 ```
 * Node Graph
-
+![simple_real_robot](https://user-images.githubusercontent.com/55785032/170192488-686d4aae-d2fb-4c8c-bede-f159e0961dc4.png)
 
 # 5. License
 
