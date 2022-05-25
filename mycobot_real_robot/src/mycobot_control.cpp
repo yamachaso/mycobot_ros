@@ -1,5 +1,5 @@
 #include <ros/ros.h>
-#include <mycobot_moveit/mycobot_hw.h>
+#include <mycobot_real_robot/mycobot_hw.h>
 #include <controller_manager/controller_manager.h>
 
 int main(int argc, char **argv)

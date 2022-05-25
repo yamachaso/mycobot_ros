@@ -13,11 +13,16 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <exec_depend>mycobot_moveit_config</exec_depend>
+  <exec_depend>mycobot_bringup</exec_depend>
+  <exec_depend>mycobot_control</exec_depend>
   <exec_depend>mycobot_description</exec_depend>
+  <exec_depend>mycobot_gazebo</exec_depend>
+  <exec_depend>mycobot_moveit_config</exec_depend>
+  <exec_depend>mycobot_real_robot</exec_depend>
 
 
   <export>
     <metapackage />
   </export>
+  
 </package>

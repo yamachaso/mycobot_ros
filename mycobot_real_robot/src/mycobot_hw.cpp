@@ -1,4 +1,4 @@
-#include <mycobot_moveit/mycobot_hw.h>
+#include <mycobot_real_robot/mycobot_hw.h>
 
 MyRobot::MyRobot(): nh_(""), private_nh_("~")
 {
