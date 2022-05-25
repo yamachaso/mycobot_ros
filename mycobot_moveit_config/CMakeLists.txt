@@ -1,22 +1,18 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(mycobot_moveit_config)
 
-add_compile_options(-std=c++11)
-
 find_package(catkin REQUIRED COMPONENTS
+  controller_manager
+  hardware_interface
   roscpp
   rospy
   std_msgs
-  tf
-  moveit_ros_planning_interface
-  hardware_interface
-  transmission_interface
-  controller_manager
 )
 
 catkin_package(
   INCLUDE_DIRS include
-  CATKIN_DEPENDS roscpp hardware_interface transmission_interface controller_manager
+  # The packages in CATKIN_DEPENDS MUST be declared in pacakge.xml
+  CATKIN_DEPENDS controller_manager hardware_interface roscpp rospy std_msgs
 )
 
 include_directories(
@@ -25,7 +21,6 @@ include_directories(
 )
 
 add_executable(mycobot_control src/mycobot_control.cpp src/mycobot_hw.cpp)
-add_dependencies(mycobot_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(mycobot_control
   ${catkin_LIBRARIES}
 )
