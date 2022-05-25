@@ -4,7 +4,7 @@
 Unofficial myCobot moveit repositiry
 
 # 2. Environment
-| item |  |
+| item | value |
 |---|---|
 | OS | Ubuntu 20.04 |
 | ROS | noetic |
@@ -26,21 +26,30 @@ $ catkin build
 
 ## 4-1. Fake Controller
 ```
-$ roslaunch mycobot_moveit_config moveit_planning_execution.launch sim:=true is_fake:=true
+$ roslaunch mycobot_bringup bringup.launch sim:=true is_fake:=true
 ```
+* Appearance
+
+* Node Graph
+
 
 ## 4-2. Simple Controller + Gazebo
 
 ```
-$ roslaunch mycobot_moveit_config moveit_planning_execution.launch sim:=true
+$ roslaunch mycobot_bringup bringup.launch sim:=true
 ```
+* Appearance
+
+* Node Graph
 
 
 ## 4-3. Simple Controller + Real Robot
 
 ```
-$ roslaunch mycobot_moveit_config moveit_planning_execution.launch
+$ roslaunch mycobot_bringup bringup.launch
 ```
+* Node Graph
+
 
 # 5. License
 
