@@ -1,77 +1,62 @@
 #!/usr/bin/env python2
 import subprocess
 import rospy
-import rosparam
+
 
 from std_msgs.msg import Float32MultiArray
-from pymycobot.mycobot import MyCobot
-from pymycobot.genre import Angle
+from pymycobot import MyCobot
 
 class MycobotHwInterface:
-    def __init__(self):
-        port_str = rospy.get_param("/hardware_interface/mycobot_port", "default")
-        if port_str == "default":
-            port = subprocess.run(['echo -n /dev/ttyUSB*'], shell=True, stdout=subprocess.PIPE, check=True).stdout.decode()
-        else:
-            port = subprocess.run(['echo -n ' + port_str], shell=True, stdout=subprocess.PIPE, check=True).stdout.decode()
+  def __init__(self, n_dof = 6):
+    port_str = rospy.get_param("/hardware_interface/mycobot_port", "default")
+    if port_str == "default":
+      port = subprocess.run(['echo -n /dev/ttyUSB*'], shell=True, stdout=subprocess.PIPE, check=True).stdout.decode()
+    else:
+      port = subprocess.run(['echo -n ' + port_str], shell=True, stdout=subprocess.PIPE, check=True).stdout.decode()
 
-        self.mycobot_ = MyCobot(port)
-        self.mycobot_.power_on()
+    self.mycobot_ = MyCobot(port)
+    self.mycobot_.power_on()
 
-        rospy.init_node('mycobot_hw_interface', anonymous=True)
-        self.joint_state_msg_pub_ = rospy.Publisher('joint_states_array', Float32MultiArray, queue_size=10)
-        self.joint_cmd_sub = rospy.Subscriber("joint_cmd_array", Float32MultiArray, self.jointCommandCallback)
+    rospy.init_node('mycobot_hw_interface', anonymous=True)
+    self.joint_state_msg_pub_ = rospy.Publisher('/joint_states_if', Float32MultiArray, queue_size=10)
+    self.joint_cmd_sub_ = rospy.Subscriber("/joint_cmd_if", Float32MultiArray, self.jointCommandCallback)
 
-        self.rate_ = rospy.Rate(10) # 10hz
+    self.rate_ = rospy.Rate(10) # 10hz
 
-        self.joint_state_array_ = []
-        JOINT_NUMBER = 6
-        for tmp in range(JOINT_NUMBER):  # initialize array
-            tmp = 0.0
-            self.joint_state_array_.append(tmp)
-        self.pre_data_list = []
-        self.first_flag = True
+    self.n_dof_ = n_dof
 
-    def main_loop(self):
-        while not rospy.is_shutdown():
-            self.joint_state_msg_sender()
-            self.rate_.sleep()
+    self.pre_data_list = None
 
-    def joint_state_msg_sender(self):
-        angles = self.mycobot_.get_radians()
-        for index, value in enumerate(angles):
-            if index != 2:
-                value *= -1
-            self.joint_state_array_[index] = value
-        # str = "angles: %s" % angles
-        # rospy.loginfo(str)
 
-        joint_state_msg = Float32MultiArray(data=self.joint_state_array_)
-        self.joint_state_msg_pub_.publish(joint_state_msg)
+  def __del__(self):
+    self.mycobot_.power_off()
 
-    def jointCommandCallback(self, msg):
-        data_list = []
-        for index, value in enumerate(msg.data):
-            if index != 2:
-                value *= -1
-            data_list.append(value)
+  def main_loop(self):
+    while not rospy.is_shutdown():
+      self.joint_state_msg_sender()
+      self.rate_.sleep()
 
-        if self.first_flag:
-            for value in data_list:
-                self.pre_data_list.append(value)
-            self.first_flag = False
+  def joint_state_msg_sender(self):
+    # NEED CHECK!
+    # deep copy here, otherwise MyRobot::jointSubscribeCallback in mycobot_hw.cpp cannnot get the adequate value sometimes and the process dies
+    angles = self.mycobot_.get_radians().copy()
+    # str = "angles: %s" % angles
+    # rospy.loginfo(str)
 
-        if self.pre_data_list != data_list:
-            rospy.loginfo(rospy.get_caller_id() + "%s", msg.data)
-            self.mycobot_.send_radians(data_list, 80)
-            self.pre_data_list = []
-            for value in data_list:
-                self.pre_data_list.append(value)
+    joint_state_msg = Float32MultiArray(data=angles)
+    self.joint_state_msg_pub_.publish(joint_state_msg)
+
+  def jointCommandCallback(self, msg):
+    data_list = [*msg.data]
+    if self.pre_data_list is None or self.pre_data_list != data_list:
+      rospy.loginfo(rospy.get_caller_id() + "%s", msg.data)
+      self.mycobot_.send_radians(data_list, 50)
+      self.pre_data_list = data_list.copy()
 
 if __name__ == '__main__':
-    try:
-        mc_hw_if = MycobotHwInterface()
-        mc_hw_if.main_loop()
-    except rospy.ROSInterruptException:
-        pass
+  try:
+    mc_hw_if = MycobotHwInterface()
+    mc_hw_if.main_loop()
+  except rospy.ROSInterruptException:
+    pass
 

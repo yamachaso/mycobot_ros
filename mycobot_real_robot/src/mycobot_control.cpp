@@ -5,9 +5,10 @@
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "mycobot_control");
+	ros::NodeHandle nh;
 
-	MyRobot robot;
-	controller_manager::ControllerManager cm(&robot);
+	MyRobot robot(nh);
+	controller_manager::ControllerManager cm(&robot, nh);
 
 	ros::AsyncSpinner spinner(1);
 	spinner.start();
@@ -21,10 +22,14 @@ int main(int argc, char **argv)
 		const ros::Duration period = time - prev_time;
 
 		robot.read(time, period);
+		ROS_WARN("read update");
 		cm.update(time, period);
+		ROS_WARN("update write");
 		robot.write(time, period);
 
 		rate.sleep();
 	}
+	spinner.stop();
+
 	return 0;
 }
