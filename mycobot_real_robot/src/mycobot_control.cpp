@@ -1,30 +1,31 @@
 #include <ros/ros.h>
 #include <mycobot_real_robot/mycobot_hw.h>
 #include <controller_manager/controller_manager.h>
+#include <iostream>
 
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "mycobot_control");
+	ros::NodeHandle nh;
 
-	MyRobot robot;
-	controller_manager::ControllerManager cm(&robot);
+	MyRobot robot(nh);
+	controller_manager::ControllerManager cm(&robot, nh);
 
 	ros::AsyncSpinner spinner(1);
 	spinner.start();
 
-	ros::Time prev_time = ros::Time::now();
-	ros::Rate rate(10.0); // 10 Hz rate
-
 	while (ros::ok())
 	{
-		const ros::Time time = ros::Time::now();
-		const ros::Duration period = time - prev_time;
+		ros::Time now = robot.getTime();
+    ros::Duration dt = robot.getPeriod();
 
-		robot.read(time, period);
-		cm.update(time, period);
-		robot.write(time, period);
+		robot.read(now, dt);
+		cm.update(now, dt);
+		robot.write(now, dt);
 
-		rate.sleep();
+		dt.sleep();
 	}
+	spinner.stop();
+
 	return 0;
 }
