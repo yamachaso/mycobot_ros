@@ -1,6 +1,5 @@
 #include <sstream>
 #include <mycobot_real_robot/mycobot_hw.h>
-#include <iostream>
 
 
 MyRobot::MyRobot(ros::NodeHandle &node)
@@ -31,20 +30,19 @@ MyRobot::MyRobot(ros::NodeHandle &node)
   registerInterface(&jnt_state_interface_);
   registerInterface(&jnt_pos_cmd_interface_);
 
-  jnt_sub_ = node.subscribe("/joint_states_if", 100, &MyRobot::jointSubscribeCallback, this);
+  jnt_sub_ = node.subscribe("/joint_states_if", 10, &MyRobot::jointSubscribeCallback, this);
   cmd_pub_ = node.advertise<std_msgs::Float32MultiArray>("/joint_cmd_if", 10);
 }
 
 void MyRobot::jointSubscribeCallback(const std_msgs::Float32MultiArray &msg){
-  std::cout << "jointSubscribeCallback in" <<std::endl; 
-
+  // TODO:BUG#1
+  // often fail to get msg.data value
   for(int i = 0; i < n_dof_; i++){
-    std::cout << msg.data[i] << ' ';
+    // TODO:BUG#1
+    // first aid
+    if(msg.data.size() == 0) return;
     pos_store_[i] = msg.data[i];
   }
-  std::cout << std::endl;
-  std::cout << "jointSubscribeCallback out" <<std::endl; 
-
 }
 
 void MyRobot::read(ros::Time time, ros::Duration period)

@@ -37,11 +37,9 @@ class MycobotHwInterface:
       self.rate_.sleep()
 
   def joint_state_msg_sender(self):
-    # NEED CHECK!
-    # deep copy here, otherwise MyRobot::jointSubscribeCallback in mycobot_hw.cpp cannnot get the adequate value sometimes and the process dies
+    # TODO:BUG#1
+    # MyRobot::jointSubscribeCallback in mycobot_hw.cpp cannnot get the adequate value sometimes and the process dies
     angles = self.mycobot_.get_radians().copy()
-    # str = "angles: %s" % angles
-    # rospy.loginfo(str)
 
     joint_state_msg = Float32MultiArray(data=angles)
     self.joint_state_msg_pub_.publish(joint_state_msg)
@@ -49,7 +47,8 @@ class MycobotHwInterface:
   def jointCommandCallback(self, msg):
     data_list = [*msg.data]
     if self.pre_data_list is None or self.pre_data_list != data_list:
-      rospy.loginfo(rospy.get_caller_id() + "%s", msg.data)
+      # rospy.loginfo(rospy.get_caller_id() + "%s", msg.data)
+      # change the second value to alter the speed
       self.mycobot_.send_radians(data_list, 50)
       self.pre_data_list = data_list.copy()
 

@@ -13,7 +13,7 @@ public:
   MyRobot(ros::NodeHandle &node);
 
   ros::Time getTime() const { return ros::Time::now(); }
-  ros::Duration getPeriod() const { return ros::Duration(0.01); }
+  ros::Duration getPeriod() const { return ros::Duration(0.1); }
 
   void read(ros::Time, ros::Duration);
   void write(ros::Time, ros::Duration);
