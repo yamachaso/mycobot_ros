@@ -12,7 +12,8 @@ Unofficial myCobot moveit repositiry
 
 # 3. Installation
 ```
-$ cd catkin_ws/src
+$ mkdir -p ~/catkin_ws/src
+$ cd ~/catkin_ws/src
 $ git clone https://github.com/yamachaso/mycobot_ros.git
 $ rosdep install --from-paths . --ignore-src -r -y
 $ cd ..
