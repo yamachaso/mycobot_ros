@@ -1,0 +1,131 @@
+<?xml version="1.0" ?>
+<robot name="hand" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+  <xacro:macro name="hand" params="connected_to:='' rpy:='0 0 0' xyz:='0 0 0'">
+
+    <xacro:unless value="${connected_to == ''}">
+      <joint name="$hand_joint" type="fixed">
+        <parent link="${connected_to}"/>
+        <child link="hand"/>
+        <origin xyz="${xyz}" rpy="${rpy}"/>
+      </joint>
+    </xacro:unless>
+
+    <link name="hand">
+      <inertial>
+        <origin xyz="-0.028556663979299093 -0.0014112336821749149 0.004163917055727373" rpy="0 0 0"/>
+        <mass value="0.8285525433772675"/>
+        <inertia ixx="0.000315" iyy="0.000315" izz="0.000394" ixy="-3e-06" iyz="2.4e-05" ixz="1.1e-05"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://mycobot_description/meshes/visual/hand.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://mycobot_description/meshes/collision/hand.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="rightfinger">
+      <inertial>
+        <origin xyz="-0.037469230247350174 0.0009068510975677631 -0.005249025336145274" rpy="0 0 0"/>
+        <mass value="0.08026978080374733"/>
+        <inertia ixx="4e-06" iyy="2.1e-05" izz="2e-05" ixy="-1e-06" iyz="-0.0" ixz="-3e-06"/>
+      </inertial>
+      <visual>
+        <origin xyz="0.04775 -0.01425 0.0035" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://mycobot_description/meshes/visual/rightfinger.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.04775 -0.01425 0.0035" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://mycobot_description/meshes/collision/rightfinger.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="leftfinger">
+      <inertial>
+        <origin xyz="-0.03746923018345649 -0.0009068510962792781 -0.005249025342895605" rpy="0 0 0"/>
+        <mass value="0.08026978091779707"/>
+        <inertia ixx="4e-06" iyy="2.1e-05" izz="2e-05" ixy="1e-06" iyz="0.0" ixz="-3e-06"/>
+      </inertial>
+      <visual>
+        <origin xyz="0.04775 0.01425 0.0035" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://mycobot_description/meshes/visual/leftfinger.stl"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.04775 0.01425 0.0035" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://mycobot_description/meshes/collision/leftfinger.stl"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="rightfinger_joint" type="prismatic">
+      <origin xyz="-0.04775 0.01425 -0.0035" rpy="0 0 0"/>
+      <parent link="hand"/>
+      <child link="rightfinger"/>
+      <axis xyz="-0.707107 -0.707107 0.0"/>
+      <limit upper="0.008" lower="-0.019" effort="100" velocity="100"/>
+    </joint>
+
+    <joint name="leftfinger_joint" type="prismatic">
+      <origin xyz="-0.04775 -0.01425 -0.0035" rpy="0 0 0"/>
+      <parent link="hand"/>
+      <child link="leftfinger"/>
+      <axis xyz="-0.707107 0.707107 0.0"/>
+      <limit upper="0.008" lower="-0.019" effort="100" velocity="100"/>
+    </joint>
+
+
+    <xacro:if value="$(arg gazebo_plugin)">
+
+      <transmission name="rightfinger_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="rightfinger_joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="rightfinger_joint_motor">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>
+
+      <transmission name="leftfinger_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="leftfinger_joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="leftfinger_joint_motor">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>
+
+      <gazebo reference="rightfinger">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <selfCollide>true</selfCollide>
+      </gazebo>
+
+      <gazebo reference="leftfinger">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <selfCollide>true</selfCollide>
+      </gazebo>
+
+    </xacro:if>
+
+  </xacro:macro>
+</robot>

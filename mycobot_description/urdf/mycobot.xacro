@@ -3,21 +3,21 @@
 
   <xacro:include filename="$(find mycobot_description)/urdf/common.xacro" />
 
-  <xacro:macro name="mycobot_robot" params="prefix parent *joint_origin">
+  <xacro:macro name="mycobot_robot" params="parent *joint_origin">
 
-    <xacro:property name="mycobot_link_1" value="${prefix}link1" />
-    <xacro:property name="mycobot_link_2" value="${prefix}link2" />
-    <xacro:property name="mycobot_link_3" value="${prefix}link3" />
-    <xacro:property name="mycobot_link_4" value="${prefix}link4" />
-    <xacro:property name="mycobot_link_5" value="${prefix}link5" />
-    <xacro:property name="mycobot_link_6" value="${prefix}link6" />
-    <xacro:property name="mycobot_link_7" value="${prefix}link6_flange" />
-    <xacro:property name="mycobot_joint_1" value="${prefix}joint1" />
-    <xacro:property name="mycobot_joint_2" value="${prefix}joint2" />
-    <xacro:property name="mycobot_joint_3" value="${prefix}joint3" />
-    <xacro:property name="mycobot_joint_4" value="${prefix}joint4" />
-    <xacro:property name="mycobot_joint_5" value="${prefix}joint5" />
-    <xacro:property name="mycobot_joint_6" value="${prefix}joint6" />
+    <xacro:property name="mycobot_link_1" value="link1" />
+    <xacro:property name="mycobot_link_2" value="link2" />
+    <xacro:property name="mycobot_link_3" value="link3" />
+    <xacro:property name="mycobot_link_4" value="link4" />
+    <xacro:property name="mycobot_link_5" value="link5" />
+    <xacro:property name="mycobot_link_6" value="link6" />
+    <xacro:property name="mycobot_link_7" value="link6_flange" />
+    <xacro:property name="mycobot_joint_1" value="joint1" />
+    <xacro:property name="mycobot_joint_2" value="joint2" />
+    <xacro:property name="mycobot_joint_3" value="joint3" />
+    <xacro:property name="mycobot_joint_4" value="joint4" />
+    <xacro:property name="mycobot_joint_5" value="joint5" />
+    <xacro:property name="mycobot_joint_6" value="joint6" />
 
     <xacro:property name="joint_velocity_limit" value="1.0" />
 

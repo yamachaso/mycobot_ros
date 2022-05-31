@@ -8,6 +8,13 @@
   <xacro:arg name="gazebo_plugin" default="true" />
   <xacro:arg name="robot_namespace" default="" />
   <xacro:arg name="virtual_base_link" default="false" />
+  <xacro:arg name="hand" default="true" />
+
+
+  <xacro:if value="$(arg hand)">
+    <xacro:include filename="$(find mycobot_description)/urdf/hand.xacro"/>
+    <xacro:hand connected_to="link6_flange" xyz='-0.015 0 0'/>
+  </xacro:if>
 
   <xacro:include filename="$(find mycobot_description)/urdf/mycobot.xacro" />
 
@@ -43,7 +50,7 @@
   <xacro:property name="mycobot_origin" value="0 0 0.006" />
 
 
-  <xacro:mycobot_robot prefix="" parent="base_link">
+  <xacro:mycobot_robot parent="base_link">
     <origin xyz="${mycobot_origin}" rpy="0 0 0" />
   </xacro:mycobot_robot>
 
