@@ -7,7 +7,6 @@
 
   <xacro:arg name="gazebo_plugin" default="true" />
   <xacro:arg name="robot_namespace" default="" />
-  <xacro:arg name="virtual_base_link" default="false" />
   <xacro:arg name="hand" default="true" />
 
 
