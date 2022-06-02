@@ -8,6 +8,13 @@ controller_list:
       - joint4
       - joint5
       - joint6
+  - name: fake_hand_controller
+    type: interpolate
+    joints:
+      - leftfinger_joint
+      - rightfinger_joint
 initial:  # Define initial robot poses per group
   - group: arm
     pose: Straight
+  - group: hand
+    pose: Open

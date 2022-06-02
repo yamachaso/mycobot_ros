@@ -5,7 +5,7 @@
   <xacro:macro name="hand" params="connected_to:='' rpy:='0 0 0' xyz:='0 0 0'">
 
     <xacro:unless value="${connected_to == ''}">
-      <joint name="$hand_joint" type="fixed">
+      <joint name="hand_joint" type="fixed">
         <parent link="${connected_to}"/>
         <child link="hand"/>
         <origin xyz="${xyz}" rpy="${rpy}"/>
@@ -117,12 +117,18 @@
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
         <selfCollide>true</selfCollide>
+        <material>Gazebo/Pedestrian</material>  
       </gazebo>
 
       <gazebo reference="leftfinger">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
         <selfCollide>true</selfCollide>
+        <material>Gazebo/Pedestrian</material>
+      </gazebo>
+
+      <gazebo reference="hand">
+        <material>Gazebo/Residential</material>
       </gazebo>
 
     </xacro:if>
